@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte Tecnico - Precios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <style>
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.3s; }
+        
+        body.home-mode { background-color: #ffffff; color: #000000; }
+        html.dark body.home-mode { background-color: #000000; color: #ffffff; }
+
+        body.detail-mode { background-color: #f5f5f7; color: #000000; }
+        html.dark body.detail-mode { background-color: #000000; color: #f5f5f7; }
+
+        /* Logo Centrado en la parte superior */
+        .header-logo { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); width: 160px; height: auto; transition: filter 0.3s; z-index: 101; }
+        html.dark .header-logo { filter: invert(1); }
+
+        html.dark .apple-card { background: #1c1c1e !important; border-color: #2c2c2e !important; color: white; }
+        
+        .icon-img-cat { width: 50px; height: 50px; object-fit: contain; margin-bottom: 12px; transition: filter 0.3s; }
+        html.dark .icon-img-cat { filter: invert(1) brightness(1.8); }
+
+        .select-group { margin-bottom: 20px; } 
+
+        select { border-radius: 12px; padding: 12px; width: 100%; appearance: none; outline: none; cursor: pointer; transition: all 0.3s; }
+        body.detail-mode select { background: #ffffff; border: 1px solid #d2d2d7; color: #000000; }
+        html.dark body.detail-mode select { background: #1c1c1e; border: 1px solid #3a3a3c; color: #ffffff; }
+
+        .price-list-container { border-radius: 24px; padding: 30px; position: relative; min-height: 100px; transition: all 0.3s; }
+        body.detail-mode .price-list-container { background: #ffffff; border: 1px solid #d2d2d7; }
+        html.dark body.detail-mode .price-list-container { background: #1c1c1e; border: 1px solid #333; }
+
+        .price-row { display: grid; align-items: center; padding: 12px 0; width: 100%; gap: 10px; border-bottom: 1px solid #e2e2e7; }
+        .price-row.cols-2 { grid-template-columns: 1fr auto; }
+        .price-row.cols-4 { grid-template-columns: 1fr 80px 100px 80px; text-align: right; }
+        .price-row.cols-4 span:first-child { text-align: left; }
+        
+        .price-header-label { font-weight: 700; color: #86868b; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; padding-bottom: 8px; }
+
+        .cols-4.price-row:first-child { border-bottom: 1px solid #e2e2e7; margin-bottom: 8px; }
+        html.dark .price-row { border-bottom: 1px solid #333; }
+        html.dark .cols-4.price-row:first-child { border-bottom: 1px solid #333; }
+        
+        .price-note { font-style: italic; font-size: 0.8rem; margin-top: 20px; color: #86868b; text-align: left; }
+
+        .segment-container { border-radius: 99px; padding: 2px; display: inline-flex; margin-bottom: 25px; transition: all 0.3s; }
+        body.detail-mode .segment-container { background: #e8e8ed; border: 1px solid #d2d2d7; }
+        html.dark body.detail-mode .segment-container { background: #1c1c1e; border: 1px solid #3a3a3c; }
+        .segment-btn { padding: 6px 20px; border-radius: 99px; font-size: 0.85rem; transition: all 0.2s; cursor: pointer; border: none; color: #86868b; background: transparent; }
+        .segment-btn.active { background: #ffffff; color: #000000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        html.dark .segment-btn.active { background: #636366; color: #ffffff; }
+        
+        .service-type-img { width: 100px; height: 100px; object-fit: contain; margin: 0 auto 25px auto; display: block; }
+
+        .theme-selector { position: absolute; top: 35px; right: 30px; display: flex; gap: 5px; background: #f5f5f7; padding: 4px; border-radius: 99px; border: 1px solid #d2d2d7; z-index: 100; }
+        html.dark .theme-selector { background: #1c1c1e; border-color: #3a3a3c; }
+        .theme-btn { border: none; background: transparent; cursor: pointer; padding: 4px 8px; border-radius: 99px; display: flex; align-items: center; color: #86868b; }
+        .theme-btn.active { background: white; color: #0066cc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        html.dark .theme-btn.active { background: #636366; color: #ffffff; }
+
+        .main-title { position: absolute; top: 90px; left: 0; right: 0; text-align: center; font-size: 1.1rem; font-weight: 500; color: #86868b; z-index: 100; }
+        .apple-card { border-radius: 18px; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 140px; background: #f5f5f7; border: 1px solid #d2d2d7; }
+        .apple-card:hover { background: #e8e8ed; transform: scale(1.02); cursor: pointer; }
+        
+        #product-image { width: 140px; height: auto; object-fit: contain; transition: opacity 0.5s ease; opacity: 0; position: absolute; top: 30px; left: 30px; }
+        #product-image.loaded { opacity: 1; }
+        .results-wrapper { margin-left: 170px; }
+        .hidden { display: none !important; }
+
+        /* Ajuste de margenes por logo centrado */
+        .view-container { margin-top: 140px; }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body class="home-mode">
+
+    <img src="favicon/logo.png" alt="Logo" class="header-logo">
+    <div class="main-title" id="top-title">Listado de Precios de Reparación</div>
+
+    <div class="theme-selector">
+        <button id="theme-light" class="theme-btn" onclick="setTheme('light')"><span class="material-symbols-outlined text-sm">light_mode</span></button>
+        <button id="theme-dark" class="theme-btn" onclick="setTheme('dark')"><span class="material-symbols-outlined text-sm">dark_mode</span></button>
+        <button id="theme-system" class="theme-btn" onclick="setTheme('system')"><span class="material-symbols-outlined text-sm">settings_brightness</span></button>
+    </div>
+
+    <div id="home-view" class="max-w-4xl mx-auto p-6 view-container">
+        <h1 class="text-3xl font-semibold text-center mb-10">Selecciona tu dispositivo</h1>
+        <div id="grid-categories" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"></div>
+    </div>
+
+    <div id="detail-view" class="hidden max-w-4xl mx-auto p-6 view-container">
+        <button onclick="showHome()" class="text-blue-500 mb-6 font-medium text-lg"> < Volver</button>
+        
+        <div class="max-w-md mx-auto mb-10 text-center">
+            <h2 id="current-cat-name" class="text-3xl font-semibold mb-8">Dispositivo</h2>
+            
+            <div id="applecare-toggle" class="segment-container">
+                <button id="btn-normal" class="segment-btn active" onclick="setServiceType('Normal')">Opciones de servicio</button>
+                <button id="btn-care" class="segment-btn" onclick="setServiceType('AppleCare')">Opciones de servicio de AppleCare</button>
+            </div>
+            <img id="service-icon" src="favicon/normal.png" class="service-type-img" alt="Icono de Servicio">
+
+            <div class="select-group"><select id="select-type" onchange="updateModels()"></select></div>
+            <div id="model-wrapper" class="select-group"><select id="select-model" onchange="displayPrices()"></select></div>
+        </div>
+
+        <div id="price-container" class="price-list-container max-w-3xl mx-auto hidden">
+            <img id="product-image" src="" alt="Producto" class="hidden">
+            <div class="results-wrapper">
+                <div class="text-xs text-gray-500 mb-4 uppercase tracking-widest">Coste estimado del servicio</div>
+                
+                <div id="mac-header-wrapper" class="hidden">
+                    <div class="price-row cols-4">
+                        <span></span> 
+                        <span class="price-header-label">Pieza</span>
+                        <span class="price-header-label">Mano de obra</span>
+                        <span class="price-header-label">Total</span>
+                    </div>
+                </div>
+
+                <div id="results"></div>
+                <p id="dynamic-price-note" class="price-note"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let rawData = [];
+        let currentServiceType = 'Normal';
+        let currentCategory = '';
+        const macCategories = ["Portátiles Mac", "Equipos Mac de escritorio", "Pantallas Apple"];
+        const categories = ["iPhone", "AirPods", "iPad", "Apple Watch", "Portátiles Mac", "Equipos Mac de escritorio", "Pantallas Apple", "HomePod", "Apple TV", "Almacenamiento", "RAM", "Mano de obra"];
+
+        function setTheme(mode) {
+            const html = document.documentElement;
+            const btns = { light: document.getElementById('theme-light'), dark: document.getElementById('theme-dark'), system: document.getElementById('theme-system') };
+            Object.values(btns).forEach(b => b.classList.remove('active'));
+            if (mode === 'system') {
+                localStorage.removeItem('theme');
+                btns.system.classList.add('active');
+                applySystemTheme();
+            } else {
+                localStorage.theme = mode;
+                btns[mode].classList.add('active');
+                mode === 'dark' ? html.classList.add('dark') : html.classList.remove('dark');
+            }
+        }
+
+        function applySystemTheme() {
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (!localStorage.theme) { isDark ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark'); }
+        }
+
+        async function loadCSV() {
+            try {
+                const response = await fetch('precios.csv');
+                const text = await response.text();
+                const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
+                const sep = lines[0].includes(';') ? ';' : ',';
+                rawData = lines.slice(1).map(line => {
+                    const cols = line.split(sep);
+                    return { 
+                        cat: cols[0]?.trim(), 
+                        type: cols[1]?.trim(), 
+                        model: cols[2]?.trim(), 
+                        service: cols[3]?.trim(), 
+                        price: cols[4]?.trim(), 
+                        image: cols[5]?.trim(), 
+                        serviceType: cols[6]?.trim() || "Normal",
+                        labor: cols[7]?.trim() || "0" 
+                    };
+                });
+                renderHome();
+            } catch (e) { console.error("Error CSV"); }
+        }
+
+        function renderHome() {
+            const grid = document.getElementById('grid-categories');
+            grid.innerHTML = categories.map(cat => `
+                <div onclick="openCategory('${cat}')" class="apple-card p-6">
+                    ${getIconHTML(cat)}
+                    <p class="text-sm font-medium">${cat}</p>
+                </div>
+            `).join('');
+        }
+
+        function getIconHTML(cat) {
+            const imageMap = { 
+                "iPhone": "favicon/iPhone.png", 
+                "AirPods": "favicon/airpods.png", 
+                "iPad": "favicon/ipad.png", 
+                "Apple Watch": "favicon/watch.png", 
+                "Portátiles Mac": "favicon/portátiles.png", 
+                "Equipos Mac de escritorio": "favicon/imac.png", 
+                "Pantallas Apple": "favicon/pantallas.png", 
+                "HomePod": "favicon/homepod.png", 
+                "Apple TV": "favicon/appletv.png", 
+                "Almacenamiento": "favicon/disco.png", 
+                "RAM": "favicon/RAM.png", 
+                "Mano de obra": "favicon/mano.png" 
+            };
+            return `<img src="${imageMap[cat]}" class="icon-img-cat" onerror="this.style.display='none'">`;
+        }
+
+        function openCategory(cat) {
+            currentCategory = cat;
+            document.body.className = 'detail-mode';
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+            document.getElementById('current-cat-name').innerText = cat;
+            document.getElementById('top-title').classList.add('hidden');
+            
+            const toggle = document.getElementById('applecare-toggle');
+            const serviceIcon = document.getElementById('service-icon');
+            if (["Almacenamiento", "RAM", "Mano de obra"].includes(cat)) {
+                toggle.classList.add('hidden');
+                serviceIcon.classList.add('hidden');
+            } else {
+                toggle.classList.remove('hidden');
+                serviceIcon.classList.remove('hidden');
+            }
+
+            // Actualizar nota según categoría
+            const noteElement = document.getElementById('dynamic-price-note');
+            if (macCategories.includes(cat)) {
+                noteElement.innerText = "* Precios con IVA incluido";
+            } else {
+                noteElement.innerText = "* Precios con IVA y mano de obra incluida";
+            }
+
+            setServiceType('Normal');
+            const filtered = rawData.filter(d => d.cat === cat);
+            const types = [...new Set(filtered.map(d => d.type))];
+            document.getElementById('select-type').innerHTML = `<option value="" disabled selected>Tipo de dispositivo</option>` + types.map(t => `<option value="${t}">${t}</option>`).join('');
+            document.getElementById('select-model').innerHTML = `<option value="" disabled selected>Modelo</option>`;
+            
+            const modelWrapper = document.getElementById('model-wrapper');
+            if (["AirPods", "HomePod", "Almacenamiento", "RAM", "Mano de obra"].includes(cat)) { 
+                modelWrapper.classList.add('hidden'); 
+            } else { 
+                modelWrapper.classList.remove('hidden'); 
+            }
+            document.getElementById('price-container').classList.add('hidden');
+        }
+
+        function setServiceType(type) {
+            currentServiceType = type;
+            document.getElementById('btn-normal').classList.toggle('active', type === 'Normal');
+            document.getElementById('btn-care').classList.toggle('active', type === 'AppleCare');
+            document.getElementById('service-icon').src = type === 'Normal' ? 'favicon/normal.png' : 'favicon/ac.png';
+            displayPrices(document.getElementById('model-wrapper').classList.contains('hidden'));
+        }
+
+        function updateModels() {
+            const type = document.getElementById('select-type').value;
+            const models = [...new Set(rawData.filter(d => d.type === type).map(d => d.model))];
+            document.getElementById('select-model').innerHTML = `<option value="" disabled selected>Modelo</option>` + models.map(m => `<option value="${m}">${m}</option>`).join('');
+            
+            if (document.getElementById('model-wrapper').classList.contains('hidden')) { 
+                displayPrices(true); 
+            } else {
+                document.getElementById('price-container').classList.add('hidden');
+            }
+        }
+
+        function parsePrice(val) {
+            if (!val || val === "---" || val === "Consultar") return 0;
+            return parseFloat(val.toString().replace(/[^0-9.,]/g, '').replace(',', '.')) || 0;
+        }
+
+        function displayPrices(isDirect = false) {
+            const type = document.getElementById('select-type').value;
+            const model = document.getElementById('select-model').value;
+            if (!isDirect && !model) return;
+
+            const matches = rawData.filter(d => (isDirect ? d.type === type : d.model === model) && d.serviceType === currentServiceType);
+            const imgElement = document.getElementById('product-image');
+            const isMac = macCategories.includes(currentCategory);
+
+            document.getElementById('mac-header-wrapper').classList.toggle('hidden', !isMac);
+            
+            if (matches.length > 0) {
+                document.getElementById('price-container').classList.remove('hidden');
+                const firstWithImg = matches.find(d => d.image);
+                if (firstWithImg?.image) { 
+                    imgElement.src = `favicon/${firstWithImg.image}`; 
+                    imgElement.classList.remove('hidden'); 
+                    imgElement.onload = () => imgElement.classList.add('loaded'); 
+                } else { imgElement.classList.add('hidden'); }
+
+                document.getElementById('results').innerHTML = matches.map(m => {
+                    if (isMac) {
+                        const pieza = parsePrice(m.price);
+                        const mano = parsePrice(m.labor);
+                        const total = (pieza + mano).toFixed(2).replace('.00', '');
+
+                        return `
+                            <div class="price-row cols-4 text-sm">
+                                <span>${m.service}</span>
+                                <span class="text-gray-500">${m.price} €</span>
+                                <span class="text-gray-500">${m.labor} €</span>
+                                <span class="font-bold">${total} €</span>
+                            </div>`;
+                    } else {
+                        return `
+                            <div class="price-row cols-2 text-sm">
+                                <span>${m.service}</span>
+                                <span class="font-bold">${m.price} €</span>
+                            </div>`;
+                    }
+                }).join('');
+            } else {
+                document.getElementById('price-container').classList.add('hidden');
+            }
+        }
+
+        function showHome() {
+            document.body.className = 'home-mode';
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('detail-view').classList.add('hidden');
+            document.getElementById('top-title').classList.remove('hidden');
+        }
+
+        window.onload = loadCSV;
+        setTheme(localStorage.theme || 'system');
+    </script>
+</body>
+</html>
