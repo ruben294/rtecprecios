@@ -275,12 +275,8 @@
             document.getElementById('select-type').innerHTML = `<option value="" disabled selected>Tipo de dispositivo</option>` + types.map(t => `<option value="${t}">${t}</option>`).join('');
             document.getElementById('select-model').innerHTML = `<option value="" disabled selected>Modelo</option>`;
             
-            const modelWrapper = document.getElementById('model-wrapper');
-            if (["AirPods", "HomePod", "Almacenamiento", "RAM", "Mano de obra"].includes(cat)) { 
-                modelWrapper.classList.add('hidden'); 
-            } else { 
-                modelWrapper.classList.remove('hidden'); 
-            }
+            // Forzar que el wrapper del modelo empiece siempre oculto al entrar a la categoria
+            document.getElementById('model-wrapper').classList.add('hidden');
             document.getElementById('price-container').classList.add('hidden');
         }
 
@@ -297,9 +293,14 @@
             const models = [...new Set(rawData.filter(d => d.type === type).map(d => d.model))];
             document.getElementById('select-model').innerHTML = `<option value="" disabled selected>Modelo</option>` + models.map(m => `<option value="${m}">${m}</option>`).join('');
             
-            if (document.getElementById('model-wrapper').classList.contains('hidden')) { 
+            const modelWrapper = document.getElementById('model-wrapper');
+            // Si la categoria no usa modelos separados, se queda oculto y va directo a precios
+            if (["AirPods", "HomePod", "Almacenamiento", "RAM", "Mano de obra"].includes(currentCategory)) { 
+                modelWrapper.classList.add('hidden'); 
                 displayPrices(true); 
             } else {
+                // Si requiere modelo, mostramos el desplegable ahora que ya se eligio el tipo
+                modelWrapper.classList.remove('hidden');
                 document.getElementById('price-container').classList.add('hidden');
             }
         }
