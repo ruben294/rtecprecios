@@ -562,10 +562,10 @@ grid-cols-1 md:grid-cols-3 gap-6 items-end pt-2">
             }
 
             const noteElement = document.getElementById('dynamic-price-note');
-            if (macCategories.includes(cat)) {
-                noteElement.innerText = "* Precios con IVA incluido";
-            } else {
+            if (cat === "iPhone") {
                 noteElement.innerText = "* Precios con IVA y mano de obra incluida";
+            } else {
+                noteElement.innerText = "* Precios con IVA incluido";
             }
 
             setServiceType('Normal');
