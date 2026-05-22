@@ -9,106 +9,194 @@
         tailwind.config = { darkMode: 'class' }
     </script>
     <style>
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.3s; }
+        body { margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; transition: background-color 0.3s;
+        }
         
-        body.home-mode { background-color: #ffffff; color: #000000; }
-        html.dark body.home-mode { background-color: #000000; color: #ffffff; }
+        body.home-mode { background-color: #ffffff;
+        color: #000000; }
+        html.dark body.home-mode { background-color: #000000; color: #ffffff;
+        }
 
-        body.detail-mode { background-color: #f5f5f7; color: #000000; }
-        html.dark body.detail-mode { background-color: #000000; color: #f5f5f7; }
+        body.detail-mode { background-color: #f5f5f7; color: #000000;
+        }
+        html.dark body.detail-mode { background-color: #000000; color: #f5f5f7;
+        }
 
-        /* Logo Centrado en la parte superior */
-        .header-logo { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); width: 160px; height: auto; transition: filter 0.3s; z-index: 101; }
-        html.dark .header-logo { filter: invert(1); }
+        .header-logo { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); width: 160px;
+        height: auto; transition: filter 0.3s; z-index: 101; }
+        html.dark .header-logo { filter: invert(1);
+        }
 
-        html.dark .apple-card { color: white; }
+        html.dark .apple-card { color: white;
+        }
         
-        .icon-img-cat { width: 50px; height: 50px; object-fit: contain; margin-bottom: 12px; transition: filter 0.3s; }
-        html.dark .icon-img-cat { filter: invert(1) brightness(1.8); }
+        .icon-img-cat { width: 50px;
+        height: 50px; object-fit: contain; margin-bottom: 12px; transition: filter 0.3s; }
+        html.dark .icon-img-cat { filter: invert(1) brightness(1.8);
+        }
 
-        .select-group { margin-bottom: 20px; } 
+        .select-group { margin-bottom: 20px;
+        } 
 
-        select { border-radius: 12px; padding: 12px; width: 100%; appearance: none; outline: none; cursor: pointer; transition: all 0.3s; }
-        body.detail-mode select { background: #ffffff; border: 1px solid #d2d2d7; color: #000000; }
-        html.dark body.detail-mode select { background: #1c1c1e; border: 1px solid #3a3a3c; color: #ffffff; }
-
-        .price-list-container { border-radius: 24px; padding: 30px; position: relative; min-height: 100px; transition: all 0.3s; }
-        body.detail-mode .price-list-container { background: #ffffff; border: 1px solid #d2d2d7; }
-        html.dark body.detail-mode .price-list-container { background: #1c1c1e; border: 1px solid #333; }
-
-        .price-row { display: grid; align-items: center; padding: 12px 0; width: 100%; gap: 10px; border-bottom: 1px solid #e2e2e7; }
-        .price-row.cols-2 { grid-template-columns: 1fr auto; }
-        .price-row.cols-4 { grid-template-columns: 1fr 80px 100px 80px; text-align: right; }
-        .price-row.cols-4 span:first-child { text-align: left; }
+        select, input.calc-input { border-radius: 12px; padding: 12px; width: 100%; outline: none;
+        cursor: pointer; transition: all 0.3s; height: 48px; box-sizing: border-box; }
         
-        .price-header-label { font-weight: 700; color: #86868b; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; padding-bottom: 8px; }
-
-        .cols-4.price-row:first-child { border-bottom: 1px solid #e2e2e7; margin-bottom: 8px; }
-        html.dark .price-row { border-bottom: 1px solid #333; }
-        html.dark .cols-4.price-row:first-child { border-bottom: 1px solid #333; }
+        select { appearance: auto !important;
+        }
         
-        .price-note { font-style: italic; font-size: 0.8rem; margin-top: 20px; color: #86868b; text-align: left; }
-
-        .segment-container { border-radius: 99px; padding: 2px; display: inline-flex; margin-bottom: 25px; transition: all 0.3s; }
-        body.detail-mode .segment-container { background: #e8e8ed; border: 1px solid #d2d2d7; }
-        html.dark body.detail-mode .segment-container { background: #1c1c1e; border: 1px solid #3a3a3c; }
-        .segment-btn { padding: 6px 20px; border-radius: 99px; font-size: 0.85rem; transition: all 0.2s; cursor: pointer; border: none; color: #86868b; background: transparent; }
-        .segment-btn.active { background: #ffffff; color: #000000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        html.dark .segment-btn.active { background: #636366; color: #ffffff; }
+        body.detail-mode select, body.detail-mode input.calc-input { background: #ffffff;
+        border: 1px solid #d2d2d7; color: #000000; border-radius: 12px; }
+        html.dark body.detail-mode select, html.dark body.detail-mode input.calc-input { background: #1c1c1e;
+        border: 1px solid #3a3a3c; color: #ffffff; border-radius: 12px; }
+        input.calc-input { cursor: text; appearance: none;
+        }
         
-        .service-type-img { width: 100px; height: 100px; object-fit: contain; margin: 0 auto 25px auto; display: block; }
-
-        .theme-selector { position: absolute; top: 35px; right: 30px; display: flex; gap: 5px; background: #f5f5f7; padding: 4px; border-radius: 99px; border: 1px solid #d2d2d7; z-index: 100; }
-        html.dark .theme-selector { background: #1c1c1e; border-color: #3a3a3c; }
-        .theme-btn { border: none; background: transparent; cursor: pointer; padding: 4px 8px; border-radius: 99px; display: flex; align-items: center; color: #86868b; }
-        .theme-btn.active { background: white; color: #0066cc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        html.dark .theme-btn.active { background: #636366; color: #ffffff; }
-
-        .main-title { position: absolute; top: 90px; left: 0; right: 0; text-align: center; font-size: 1.1rem; font-weight: 500; color: #86868b; z-index: 100; }
-        .apple-card { transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 140px; background: transparent; border: none; }
-        .apple-card:hover { transform: scale(1.05); cursor: pointer; }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
         
-        #product-image { width: 140px; height: auto; object-fit: contain; transition: opacity 0.5s ease; opacity: 0; position: absolute; top: 30px; left: 30px; }
-        #product-image.loaded { opacity: 1; }
-        .results-wrapper { margin-left: 170px; }
-        .hidden { display: none !important; }
+        input.calc-input:disabled, input.calc-readonly, select.calc-readonly { background: #e8e8ed !important;
+        cursor: not-allowed; color: #636366; border: 1px solid #d2d2d7; }
+        html.dark input.calc-input:disabled, html.dark input.calc-readonly, html.dark select.calc-readonly { background: #2c2c2e !important;
+        color: #aeaeae; border: 1px solid #3a3a3c; }
 
-        /* Ajuste de margenes por logo centrado */
-        .view-container { margin-top: 140px; }
+        .price-list-container { border-radius: 24px; padding: 30px;
+        position: relative; min-height: 100px; transition: all 0.3s; }
+        body.detail-mode .price-list-container { background: #ffffff;
+        border: 1px solid #d2d2d7; }
+        html.dark body.detail-mode .price-list-container { background: #1c1c1e;
+        border: 1px solid #333; }
 
-        /* ==========================================================================
-           NUEVOS AJUSTES RESPONSIVOS PARA MOVILES (iPhone / iPad)
-           ========================================================================== */
+        .price-row { display: grid; align-items: center;
+        padding: 12px 0; width: 100%; gap: 10px; border-bottom: 1px solid #e2e2e7;
+        }
+        .price-row.cols-2 { grid-template-columns: 1fr auto;
+        }
+        .price-row.cols-4 { grid-template-columns: 1fr 80px 100px 80px; text-align: right;
+        }
+        .price-row.cols-4 span:first-child { text-align: left;
+        }
+        
+        .price-header-label { font-weight: 700;
+        color: #86868b; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; padding-bottom: 8px;
+        }
+
+        .cols-4.price-row:first-child { border-bottom: 1px solid #e2e2e7; margin-bottom: 8px;
+        }
+        html.dark .price-row { border-bottom: 1px solid #333;
+        }
+        html.dark .cols-4.price-row:first-child { border-bottom: 1px solid #333;
+        }
+        
+        .price-note { font-style: italic;
+        font-size: 0.8rem; margin-top: 20px; color: #86868b; text-align: left; }
+
+        .segment-container { border-radius: 99px;
+        padding: 4px; display: inline-flex; margin-bottom: 25px; transition: all 0.3s; background: #e8e8ed; border: 1px solid #d2d2d7;
+        }
+        html.dark .segment-container { background: #1c1c1e; border: 1px solid #3a3a3c;
+        }
+        .segment-btn { padding: 8px 24px; border-radius: 99px; font-size: 0.9rem; font-weight: 500;
+        transition: all 0.2s; cursor: pointer; border: none; color: #86868b; background: transparent;
+        white-space: nowrap; }
+        .segment-btn.active { background: #ffffff; color: #000000; box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        html.dark .segment-btn.active { background: #636366; color: #ffffff;
+        }
+        
+        .service-type-img { width: 100px;
+        height: 100px; object-fit: contain; margin: 0 auto 25px auto; display: block;
+        }
+
+        .theme-selector { position: absolute; top: 35px; right: 30px; display: flex; gap: 5px;
+        background: #f5f5f7; padding: 4px; border-radius: 99px; border: 1px solid #d2d2d7; z-index: 100;
+        }
+        html.dark .theme-selector { background: #1c1c1e; border-color: #3a3a3c;
+        }
+        .theme-btn { border: none; background: transparent; cursor: pointer; padding: 4px 8px;
+        border-radius: 99px; display: flex; align-items: center; color: #86868b; }
+        .theme-btn.active { background: white;
+        color: #0066cc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        html.dark .theme-btn.active { background: #636366;
+        color: #ffffff; }
+
+        .main-title { position: absolute; top: 90px; left: 0; right: 0;
+        text-align: center; font-size: 1.1rem; font-weight: 500; color: #86868b; z-index: 100;
+        }
+        .apple-card { transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center;
+        justify-content: center; min-height: 140px; background: transparent; border: none; }
+        .apple-card:hover { transform: scale(1.05);
+        cursor: pointer; }
+        
+        #product-image { width: 140px;
+        height: auto; object-fit: contain; transition: opacity 0.5s ease; opacity: 0; position: absolute; top: 30px; left: 30px;
+        }
+        #product-image.loaded { opacity: 1;
+        }
+        .results-wrapper { margin-left: 170px;
+        }
+        .hidden { display: none !important;
+        }
+
+        .view-container { margin-top: 140px;
+        }
+
+        .input-indicator { color: #ef4444; font-size: 1.35rem; display: inline-block;
+        animation: pointRight 0.8s infinite alternate; }
+        
+        @keyframes pointRight {
+            0% { transform: translateX(0);
+        }
+            100% { transform: translateX(4px);
+        }
+        }
+
         @media (max-width: 768px) {
-            /* Desplazar el selector de tema y ajustar espacio superior */
-            .theme-selector { top: 20px; right: 15px; scale: 0.9; }
-            .header-logo { top: 20px; width: 130px; }
-            .main-title { top: 75px; font-size: 1rem; padding: 0 15px; }
-            .view-container { margin-top: 120px; padding: 15px; }
+            .theme-selector { top: 20px;
+        right: 15px; scale: 0.9; }
+            .header-logo { top: 20px;
+        width: 130px; }
+            .main-title { top: 75px; font-size: 1rem;
+        padding: 0 15px; }
+            .view-container { margin-top: 120px;
+        padding: 15px; }
 
-            /* Adaptacion de las opciones de servicio (AppleCare) */
-            .segment-container { display: flex; width: 100%; border-radius: 14px; }
-            .segment-btn { flex: 1; padding: 8px 10px; font-size: 0.8rem; border-radius: 12px; }
+            .segment-container { display: flex; width: 100%;
+        border-radius: 14px; }
+            .segment-btn { flex: 1;
+        padding: 8px 10px; font-size: 0.8rem; border-radius: 12px; white-space: normal; }
 
-            /* Reposicionamiento de la imagen del producto en moviles */
-            #product-image { position: relative; top: 0; left: 0; margin: 0 auto 20px auto; width: 100px; display: block; }
-            .results-wrapper { margin-left: 0; }
+            #product-image { position: relative;
+        top: 0; left: 0; margin: 0 auto 20px auto; width: 100px; display: block;
+        }
+            .results-wrapper { margin-left: 0;
+        }
 
-            /* Ajuste del contenedor de la lista de precios */
-            .price-list-container { padding: 20px 15px; }
+            .price-list-container { padding: 20px 15px;
+        }
 
-            /* Conversion de la tabla de 4 columnas (Mac) a un diseño vertical scannable */
-            .price-row.cols-4 { grid-template-columns: 1fr; text-align: left; gap: 4px; padding: 16px 0; }
-            .price-row.cols-4 span:first-child { font-weight: 600; font-size: 0.95rem; margin-bottom: 4px; }
+            .price-row.cols-4 { grid-template-columns: 1fr; text-align: left; gap: 4px;
+        padding: 16px 0; }
+            .price-row.cols-4 span:first-child { font-weight: 600;
+        font-size: 0.95rem; margin-bottom: 4px; }
             
-            /* Creacion de etiquetas visuales mediante pseudoelementos para las columnas colapsadas */
-            .price-row.cols-4 span:nth-child(2)::before { content: "Pieza: "; color: #86868b; font-weight: normal; }
-            .price-row.cols-4 span:nth-child(3)::before { content: "Mano de obra: "; color: #86868b; font-weight: normal; }
-            .price-row.cols-4 span:nth-child(4)::before { content: "Total: "; color: #86868b; font-weight: normal; }
-            .price-row.cols-4 span:not(:first-child) { font-size: 0.85rem; }
+            .price-row.cols-4 span:nth-child(2)::before { content: "Pieza: ";
+        color: #86868b; font-weight: normal; }
+            .price-row.cols-4 span:nth-child(3)::before { content: "Mano de obra: ";
+        color: #86868b; font-weight: normal; }
+            .price-row.cols-4 span:nth-child(4)::before { content: "Total: ";
+        color: #86868b; font-weight: normal; }
+            .price-row.cols-4 span:not(:first-child) { font-size: 0.85rem;
+        }
 
-            /* Ocultar la cabecera original de la tabla en pantallas pequeñas */
-            #mac-header-wrapper { display: none !important; }
+            #mac-header-wrapper { display: none !important;
+        }
         }
     </style>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -116,7 +204,7 @@
 <body class="home-mode">
 
     <img src="favicon/logo.png" alt="Logo" class="header-logo">
-    <div class="main-title" id="top-title">Listado de Precios de Reparación</div>
+    <div class="main-title" id="top-title">Listado de Precios de Reparacion</div>
 
     <div class="theme-selector">
         <button id="theme-light" class="theme-btn" onclick="setTheme('light')"><span class="material-symbols-outlined text-sm">light_mode</span></button>
@@ -125,53 +213,184 @@
     </div>
 
     <div id="home-view" class="max-w-4xl mx-auto p-6 view-container">
-        <h1 class="text-3xl font-semibold text-center mb-10">Selecciona tu dispositivo</h1>
+      
+    <h1 class="text-3xl font-semibold text-center mb-10">Selecciona tu dispositivo</h1>
         <div id="grid-categories" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"></div>
     </div>
 
     <div id="detail-view" class="hidden max-w-4xl mx-auto p-6 view-container">
-        <button onclick="showHome()" class="text-blue-500 mb-6 font-medium text-lg"> < Volver</button>
         
-        <div class="max-w-md mx-auto mb-10 text-center">
+        <div class="flex justify-between items-center mb-6">
+            <button onclick="showHome()" class="text-blue-500 font-medium text-lg"> < Volver</button>
+        </div>
+        
+        <div class="max-w-2xl mx-auto mb-10 text-center" id="standard-detail-header">
             <h2 id="current-cat-name" class="text-3xl font-semibold mb-8">Dispositivo</h2>
             
+
             <div id="applecare-toggle" class="segment-container">
                 <button id="btn-normal" class="segment-btn active" onclick="setServiceType('Normal')">Opciones de servicio</button>
                 <button id="btn-care" class="segment-btn" onclick="setServiceType('AppleCare')">Opciones de servicio de AppleCare</button>
+        
             </div>
             <img id="service-icon" src="favicon/normal.png" class="service-type-img" alt="Icono de Servicio">
 
-            <div class="select-group"><select id="select-type" onchange="updateModels()"></select></div>
-            <div id="model-wrapper" class="select-group"><select id="select-model" onchange="displayPrices()"></select></div>
+           
+            <div class="max-w-md mx-auto">
+                <div class="select-group"><select id="select-type" onchange="updateModels()"></select></div>
+                <div id="model-wrapper" class="select-group"><select id="select-model" onchange="displayPrices()"></select></div>
+            </div>
         </div>
 
-        <div id="price-container" class="price-list-container max-w-3xl mx-auto hidden">
+        <div id="calculator-wrapper" class="hidden max-w-4xl mx-auto mb-10">
+            <h2 class="text-3xl font-semibold mb-6 text-center">Calculadora de Piezas</h2>
+      
+            
+            <div class="flex justify-center mb-8">
+              
+    <div class="segment-container">
+                    <button id="tab-importe-btn" class="segment-btn active" onclick="switchCalcTab('importe')">Calcular por importe</button>
+                    <button id="tab-pieza-btn" class="segment-btn" onclick="switchCalcTab('pieza')">Calcular por pieza</button>
+         
+        </div>
+            </div>
+
+            <div id="calc-tab-importe" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                    <div>
+                        <label class="block 
+text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+                           <span class="input-indicator mr-1">👉</span>Inserta el importe GSX (sin IVA)
+                        </label>
+                        <input type="number" step="any" id="imp-gsx" class="calc-input" placeholder="0.00" oninput="calculateImporteTab()">
+       
+              </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Precio pieza IVA + margen incluido</label>
+                        <input type="text" id="imp-margin" class="calc-input calc-readonly !text-blue-600 dark:!text-blue-400 
+font-medium" readonly placeholder="Calculado automaticamente">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Descuento (%)</label>
+                        <input 
+type="number" min="0" max="100" id="imp-discount" class="calc-input" placeholder="0" oninput="calculateImporteTab()">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end pt-2">
+                    <div>
+                
+        <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+                           <span class="input-indicator mr-1">👉</span>Mano de obra
+                        </label>
+                        <input type="number" step="any" id="imp-labor" class="calc-input" placeholder="0.00" 
+oninput="calculateImporteTab()">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider text-center">TOTAL (IVA + MARGEN + MANO DE OBRA)</label>
+                    
+     <input type="text" id="imp-total" class="calc-input font-bold !text-green-600 dark:!text-green-400 text-center calc-readonly" readonly placeholder="Calculado automaticamente">
+                    </div>
+                </div>
+            </div>
+
+            <div id="calc-tab-pieza" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+  
+                   <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+                            <span class="input-indicator mr-1">👉</span>Inserta Numero de pieza
+                  
+       </label>
+                        <input type="text" id="pz-part-number" class="calc-input" placeholder="Escribe el codigo..." onkeydown="handlePiezaKeyDown(event)">
+                    </div>
+                    <div>
+                       
+  <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Descripcion</label>
+                        <input type="text" id="pz-description" class="calc-input calc-readonly" readonly placeholder="Descripcion de la pieza">
+                    </div>
+                    <div>
+                   
+      <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Precio Pieza GSX (sin IVA)</label>
+                        <input type="text" id="pz-gsx-price" class="calc-input calc-readonly" readonly placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="grid 
+grid-cols-1 md:grid-cols-3 gap-6 items-end pt-2">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+                            <span class="input-indicator mr-1">👉</span>Opcion de precio
+             
+            </label>
+                        <select id="pz-price-option" onchange="selectPiezaOption()"></select>
+                    </div>
+                    <div>
+                       
+  <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Precio pieza IVA + margen incluido</label>
+                        <input type="text" id="pz-margin-price" class="calc-input calc-readonly !text-blue-600 dark:!text-blue-400 font-medium" readonly placeholder="Calculado automaticamente">
+                    </div>
+                    <div>
+             
+            <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Descuento (%)</label>
+                        <input type="number" min="0" max="100" id="pz-discount" class="calc-input" placeholder="0" oninput="calculatePiezaTab()">
+                    </div>
+                </div>
+
+              
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end pt-2">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+                            <span id="hand-pz-labor" class="input-indicator mr-1">👉</span>Mano de obra
+        
+                 </label>
+                        <input type="number" step="any" id="pz-labor" class="calc-input" placeholder="0.00" oninput="calculatePiezaTab()">
+                    </div>
+                    <div class="md:col-span-2">
+             
+            <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider text-center">TOTAL (IVA + MARGEN + MANO DE OBRA)</label>
+                        <input type="text" id="pz-total-price" class="calc-input calc-readonly font-bold !text-green-600 dark:!text-green-400 text-center" readonly placeholder="Calculado automaticamente">
+                    </div>
+                </div>
+   
+          </div>
+
+        </div>
+
+   
+       <div id="price-container" class="price-list-container max-w-3xl mx-auto hidden">
             <img id="product-image" src="" alt="Producto" class="hidden">
             <div class="results-wrapper">
                 <div class="text-xs text-gray-500 mb-4 uppercase tracking-widest">Coste estimado del servicio</div>
-                
+               
+  
                 <div id="mac-header-wrapper" class="hidden">
-                    <div class="price-row cols-4">
+   
+                   <div class="price-row cols-4">
                         <span></span> 
                         <span class="price-header-label">Pieza</span>
-                        <span class="price-header-label">Mano de obra</span>
+       
+                  <span class="price-header-label">Mano de obra</span>
                         <span class="price-header-label">Total</span>
                     </div>
                 </div>
 
                 <div id="results"></div>
-                <p id="dynamic-price-note" class="price-note"></p>
+  
+               <p id="dynamic-price-note" class="price-note"></p>
+        
             </div>
         </div>
     </div>
 
     <script>
         let rawData = [];
+        let piecesData = [];
         let currentServiceType = 'Normal';
         let currentCategory = '';
+        let currentCalcTab = 'importe';
         const macCategories = ["Portátiles Mac", "Equipos Mac de escritorio", "Pantallas Apple"];
-        const categories = ["iPhone", "AirPods", "iPad", "Apple Watch", "Portátiles Mac", "Equipos Mac de escritorio", "Pantallas Apple", "HomePod", "Apple TV", "Almacenamiento", "RAM", "Mano de obra"];
-
+        const categories = ["iPhone", "AirPods", "iPad", "Apple Watch", "Portátiles Mac", "Equipos Mac de escritorio", "Pantallas Apple", "HomePod", "Apple TV", "Almacenamiento/RAM", "Mano de obra", "Calculadora"];
         function setTheme(mode) {
             const html = document.documentElement;
             const btns = { light: document.getElementById('theme-light'), dark: document.getElementById('theme-dark'), system: document.getElementById('theme-system') };
@@ -192,27 +411,94 @@
             if (!localStorage.theme) { isDark ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark'); }
         }
 
-        async function loadCSV() {
+        function cleanString(str) {
+            if (!str) return "";
+            return str.trim().toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function parseCSVLine(text, sep) {
+            let fields = [];
+            let field = "";
+            let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i];
+                if (c === '"') {
+                    inQuotes = !inQuotes;
+                } else if (c === sep && !inQuotes) {
+                    fields.push(field.trim());
+                    field = "";
+        
+ 
+                } else {
+                    field += c;
+                }
+            }
+            fields.push(field.trim());
+            return fields;
+       
+          }
+
+         async function loadCSV() {
             try {
                 const response = await fetch('precios.csv');
                 const text = await response.text();
                 const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
-                const sep = lines[0].includes(';') ? ';' : ',';
+           
+              const sep = lines[0].includes(';') 
+                ? ';'
+                : ',';
                 rawData = lines.slice(1).map(line => {
-                    const cols = line.split(sep);
+                    const cols = parseCSVLine(line, sep);
                     return { 
-                        cat: cols[0]?.trim(), 
-                        type: cols[1]?.trim(), 
-                        model: cols[2]?.trim(), 
-                        service: cols[3]?.trim(), 
-                        price: cols[4]?.trim(), 
-                        image: cols[5]?.trim(), 
-                        serviceType: cols[6]?.trim() || "Normal",
-                        labor: cols[7]?.trim() || "0" 
-                    };
+                        cat: cols[0], 
+       
+                        type: cols[1], 
+                        model: cols[2], 
+                        service: cols[3], 
+                        price: cols[4], 
+  
+                        image: cols[5], 
+                        serviceType: cols[6] || "Normal",
+                        labor: cols[7] || "0" 
+                    
+                };
                 });
                 renderHome();
             } catch (e) { console.error("Error CSV"); }
+            
+            try {
+                const response = await fetch('piezas.csv');
+     
+                const text = await response.text();
+                const lines = text.split(/\r?\n/).filter(line => line.trim() !== "");
+                const sep = lines[0].includes(';') ? ';'
+                : ',';
+                
+                const headers = parseCSVLine(lines[0], sep).map(h => cleanString(h));
+                
+                const idxPart = headers.findIndex(h => h === "numero de pieza" || (h.includes("numero") && h.includes("pieza")));
+                
+ 
+                const idxOpt = headers.findIndex(h => h === "opcion de precio" || h === "opciondeprecio");
+                const idxPrice = headers.findIndex(h => h === "precio");
+                const idxDesc = headers.findIndex(h => h === "descripcion de la pieza" || h.includes("descripcion"));
+
+                piecesData = lines.slice(1).map(line => 
+                {
+                     const cols = parseCSVLine(line, sep);
+                    return {
+                        partNumber: cols[idxPart] || "",
+                        option: cols[idxOpt] || 
+                        "",
+                         price: cols[idxPrice] || "",
+                        description: cols[idxDesc] || ""
+                    };
+                });
+         
+            } catch (e) { console.error("Error piezas CSV");
+        }
         }
 
         function renderHome() {
@@ -220,7 +506,7 @@
             grid.innerHTML = categories.map(cat => `
                 <div onclick="openCategory('${cat}')" class="apple-card p-6">
                     ${getIconHTML(cat)}
-                    <p class="text-sm font-medium">${cat}</p>
+                    <p class="text-xs">${cat}</p>
                 </div>
             `).join('');
         }
@@ -231,16 +517,18 @@
                 "AirPods": "favicon/airpods.png", 
                 "iPad": "favicon/ipad.png", 
                 "Apple Watch": "favicon/watch.png", 
+ 
                 "Portátiles Mac": "favicon/portatiles.png", 
                 "Equipos Mac de escritorio": "favicon/imac.png", 
                 "Pantallas Apple": "favicon/pantallas.png", 
                 "HomePod": "favicon/homepod.png", 
                 "Apple TV": "favicon/appletv.png", 
-                "Almacenamiento": "favicon/disco.png", 
-                "RAM": "favicon/ram.png", 
-                "Mano de obra": "favicon/mano.png" 
+    
+             "Almacenamiento/RAM": "favicon/discoram.png", 
+                "Mano de obra": "favicon/mano.png",
+                "Calculadora": "favicon/calculadora.png" 
             };
-            return `<img src="${imageMap[cat]}" class="icon-img-cat" onerror="this.style.display='none'">`;
+        return `<img src="${imageMap[cat]}" class="icon-img-cat" onerror="this.style.display='none'">`;
         }
 
         function openCategory(cat) {
@@ -248,12 +536,24 @@
             document.body.className = 'detail-mode';
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('detail-view').classList.remove('hidden');
-            document.getElementById('current-cat-name').innerText = cat;
             document.getElementById('top-title').classList.add('hidden');
+            
+            if (cat === "Calculadora") {
+                document.getElementById('standard-detail-header').classList.add('hidden');
+                document.getElementById('price-container').classList.add('hidden');
+                document.getElementById('calculator-wrapper').classList.remove('hidden');
+                clearCalculator();
+                switchCalcTab('importe');
+                return;
+            }
+
+            document.getElementById('standard-detail-header').classList.remove('hidden');
+            document.getElementById('calculator-wrapper').classList.add('hidden');
+            document.getElementById('current-cat-name').innerText = cat;
             
             const toggle = document.getElementById('applecare-toggle');
             const serviceIcon = document.getElementById('service-icon');
-            if (["Almacenamiento", "RAM", "Mano de obra"].includes(cat)) {
+            if (["almacenamiento/RAM", "Mano de obra"].includes(cat)) {
                 toggle.classList.add('hidden');
                 serviceIcon.classList.add('hidden');
             } else {
@@ -261,7 +561,6 @@
                 serviceIcon.classList.remove('hidden');
             }
 
-            // Actualizar nota según categoría
             const noteElement = document.getElementById('dynamic-price-note');
             if (macCategories.includes(cat)) {
                 noteElement.innerText = "* Precios con IVA incluido";
@@ -275,7 +574,6 @@
             document.getElementById('select-type').innerHTML = `<option value="" disabled selected>Tipo de dispositivo</option>` + types.map(t => `<option value="${t}">${t}</option>`).join('');
             document.getElementById('select-model').innerHTML = `<option value="" disabled selected>Modelo</option>`;
             
-            // Forzar que el wrapper del modelo empiece siempre oculto al entrar a la categoria
             document.getElementById('model-wrapper').classList.add('hidden');
             document.getElementById('price-container').classList.add('hidden');
         }
@@ -294,12 +592,10 @@
             document.getElementById('select-model').innerHTML = `<option value="" disabled selected>Modelo</option>` + models.map(m => `<option value="${m}">${m}</option>`).join('');
             
             const modelWrapper = document.getElementById('model-wrapper');
-            // Si la categoria no usa modelos separados, se queda oculto y va directo a precios
-            if (["AirPods", "HomePod", "Almacenamiento", "RAM", "Mano de obra"].includes(currentCategory)) { 
-                modelWrapper.classList.add('hidden'); 
+            if (["AirPods", "HomePod", "Almacenamiento/RAM", "Mano de obra"].includes(currentCategory)) { 
+                modelWrapper.classList.add('hidden');
                 displayPrices(true); 
             } else {
-                // Si requiere modelo, mostramos el desplegable ahora que ya se eligio el tipo
                 modelWrapper.classList.remove('hidden');
                 document.getElementById('price-container').classList.add('hidden');
             }
@@ -320,37 +616,41 @@
             const isMac = macCategories.includes(currentCategory);
 
             document.getElementById('mac-header-wrapper').classList.toggle('hidden', !isMac);
-            
             if (matches.length > 0) {
                 document.getElementById('price-container').classList.remove('hidden');
                 const firstWithImg = matches.find(d => d.image);
                 if (firstWithImg?.image) { 
-                    // MEJORA: .trim() elimina espacios e invisible y .toLowerCase() fuerza minúsculas para coincidir con la carpeta
-                    imgElement.src = `favicon/${firstWithImg.image.trim().toLowerCase()}`; 
+                    imgElement.src = `favicon/${firstWithImg.image.trim().toLowerCase()}`;
                     imgElement.classList.remove('hidden'); 
                     imgElement.onload = () => imgElement.classList.add('loaded'); 
-                } else { imgElement.classList.add('hidden'); }
+                } else { imgElement.classList.add('hidden');
+                }
 
                 document.getElementById('results').innerHTML = matches.map(m => {
                     if (isMac) {
                         const pieza = parsePrice(m.price);
                         const mano = parsePrice(m.labor);
+    
                         const total = (pieza + mano).toFixed(2).replace('.00', '');
 
                         return `
                             <div class="price-row cols-4 text-sm">
+                  
                                 <span>${m.service}</span>
                                 <span class="text-gray-500">${m.price} €</span>
                                 <span class="text-gray-500">${m.labor} €</span>
+                  
                                 <span class="font-bold">${total} €</span>
                             </div>`;
                     } else {
                         return `
+         
                             <div class="price-row cols-2 text-sm">
                                 <span>${m.service}</span>
                                 <span class="font-bold">${m.price} €</span>
-                            </div>`;
-                    }
+            
+                             </div>`;
+}
                 }).join('');
             } else {
                 document.getElementById('price-container').classList.add('hidden');
@@ -362,6 +662,171 @@
             document.getElementById('home-view').classList.remove('hidden');
             document.getElementById('detail-view').classList.add('hidden');
             document.getElementById('top-title').classList.remove('hidden');
+        }
+
+
+        /* LOGICA GENERAL DE LA CALCULADORA */
+
+        function switchCalcTab(tab) {
+            currentCalcTab = tab;
+            document.getElementById('tab-importe-btn').classList.toggle('active', tab === 'importe');
+            document.getElementById('tab-pieza-btn').classList.toggle('active', tab === 'pieza');
+            
+            document.getElementById('calc-tab-importe').classList.toggle('hidden', tab !== 'importe');
+            document.getElementById('calc-tab-pieza').classList.toggle('hidden', tab !== 'pieza');
+            clearCalculator();
+        }
+
+        function getMarginPrice(gsxPrice) {
+            let baseWithMargin = 0;
+            if (gsxPrice <= 199) {
+                baseWithMargin = gsxPrice / 0.65;
+            } else if (gsxPrice >= 200 && gsxPrice <= 299) {
+                baseWithMargin = gsxPrice / 0.75;
+            } else if (gsxPrice >= 300 && gsxPrice <= 399) {
+                baseWithMargin = gsxPrice / 0.80;
+            } else if (gsxPrice >= 400 && gsxPrice <= 499) {
+                baseWithMargin = gsxPrice / 0.85;
+            } else if (gsxPrice >= 500) {
+                baseWithMargin = gsxPrice + 70;
+            }
+
+            let priceWithIVA = baseWithMargin * 1.21;
+            return Math.round(priceWithIVA / 5) * 5;
+        }
+
+        /* LOGICA PESTAÑA: CALCULAR POR IMPORTE */
+        function calculateImporteTab() {
+            const gsxPrice = parseFloat(document.getElementById('imp-gsx').value);
+            const laborRaw = document.getElementById('imp-labor').value.trim();
+            const laborPrice = parseFloat(laborRaw) || 0;
+            const discountRaw = document.getElementById('imp-discount').value.trim();
+            const discountVal = parseFloat(discountRaw) || 0;
+            const marginInput = document.getElementById('imp-margin');
+            const totalInput = document.getElementById('imp-total');
+
+            if (isNaN(gsxPrice) || gsxPrice < 0) {
+                marginInput.value = "";
+                totalInput.value = "";
+                return;
+            }
+
+            let marginPrice = getMarginPrice(gsxPrice);
+            if (discountVal > 0 && discountVal <= 100) {
+                marginPrice = marginPrice - (marginPrice * (discountVal / 100));
+            }
+            
+            marginInput.value = marginPrice.toFixed(2) + " €";
+            if (laborRaw !== "" && laborPrice > 0) {
+                let total = marginPrice + laborPrice;
+                totalInput.value = total.toFixed(2) + " €";
+            } else {
+                totalInput.value = "";
+            }
+        }
+
+
+        /* LÓGICA PESTAÑA: CALCULAR POR PIEZA */
+        function handlePiezaKeyDown(event) {
+            if (event.key === 'Enter' || event.key === 'Tab') {
+                searchPiezaPartNumber();
+            }
+        }
+
+        function searchPiezaPartNumber() {
+            const partNum = document.getElementById('pz-part-number').value.trim().toLowerCase();
+            const selectOpt = document.getElementById('pz-price-option');
+            const gsxInput = document.getElementById('pz-gsx-price');
+            const descInput = document.getElementById('pz-description');
+
+            if (!partNum) return;
+            const matches = piecesData.filter(p => p.partNumber.trim().toLowerCase() === partNum);
+
+            if (matches.length > 0) {
+                descInput.value = matches[0].description.replace(/^"|"$/g, '');
+                selectOpt.innerHTML = '<option value="" disabled>Elige una opcion...</option>' + 
+                    matches.map((m, index) => `<option value="${index}">${m.option}</option>`).join('');
+                selectOpt.currentMatches = matches;
+
+                let defaultIndex = matches.findIndex(m => m.option.trim().toLowerCase() === "precio de intercambio");
+                if (defaultIndex === -1) {
+                    defaultIndex = 0;
+                }
+
+                selectOpt.value = defaultIndex;
+                const match = matches[defaultIndex];
+                if (match) {
+                    const price = parsePrice(match.price);
+                    gsxInput.value = price.toFixed(2) + " €";
+                }
+
+            } else {
+                selectOpt.innerHTML = '<option value="" disabled>No disponible</option>';
+                descInput.value = "No encontrado";
+                alert("Numero de pieza no encontrado en piezas.csv.");
+            }
+            calculatePiezaTab();
+        }
+
+        function selectPiezaOption() {
+            const selectOpt = document.getElementById('pz-price-option');
+            const selectedIdx = selectOpt.value;
+            if (!selectedIdx || selectedIdx === "") return;
+            
+            const match = selectOpt.currentMatches[selectedIdx];
+            if (match) {
+                const price = parsePrice(match.price);
+                document.getElementById('pz-gsx-price').value = price.toFixed(2) + " €";
+                calculatePiezaTab();
+            }
+        }
+
+        function calculatePiezaTab() {
+            const gsxRaw = document.getElementById('pz-gsx-price').value;
+            const gsxPrice = parseFloat(gsxRaw.replace(/[^0-9.,]/g, '').replace(',', '.')) || 0;
+            const laborRaw = document.getElementById('pz-labor').value.trim();
+            const laborPrice = parseFloat(laborRaw) || 0;
+            const discountRaw = document.getElementById('pz-discount').value.trim();
+            const discountVal = parseFloat(discountRaw) || 0;
+
+            const marginInput = document.getElementById('pz-margin-price');
+            const totalInput = document.getElementById('pz-total-price');
+            if (!gsxRaw || gsxPrice <= 0) {
+                marginInput.value = "";
+                totalInput.value = "";
+                return;
+            }
+
+            let marginPrice = getMarginPrice(gsxPrice);
+            if (discountVal > 0 && discountVal <= 100) {
+                marginPrice = marginPrice - (marginPrice * (discountVal / 100));
+            }
+            
+            marginInput.value = marginPrice.toFixed(2) + " €";
+            if (laborRaw !== "" && laborPrice > 0) {
+                let total = marginPrice + laborPrice;
+                totalInput.value = total.toFixed(2) + " €";
+            } else {
+                totalInput.value = "";
+            }
+        }
+
+        function clearCalculator() {
+            document.getElementById('imp-gsx').value = "";
+            document.getElementById('imp-margin').value = "";
+            document.getElementById('imp-labor').value = "";
+            document.getElementById('imp-total').value = "";
+            document.getElementById('imp-discount').value = "";
+
+            document.getElementById('pz-part-number').value = "";
+            document.getElementById('pz-description').value = "";
+            document.getElementById('pz-price-option').innerHTML = "";
+            
+            document.getElementById('pz-gsx-price').value = "";
+            document.getElementById('pz-labor').value = "";
+            document.getElementById('pz-margin-price').value = "";
+            document.getElementById('pz-total-price').value = "";
+            document.getElementById('pz-discount').value = "";
         }
 
         window.onload = loadCSV;
